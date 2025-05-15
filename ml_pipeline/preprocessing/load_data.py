@@ -291,7 +291,7 @@ def unify_time_series(
 
     combined.drop(columns=propagated_cols, inplace=True)
    
-    # Local Solar Time and cylical transformation.  Note: we calculate solar time again here but with the propagated lon. 
+    # Local Solar Time and cylical transformation.  
     lon_h = lon / 15.0
     lst = (idx.hour + idx.minute/60 + lon_h) % 24
     combined['lst_sin'] = np.sin(2*np.pi*lst/24)
@@ -415,59 +415,6 @@ def unify_time_series(
     # clean up temporary grouping cols 
     combined.drop(columns=['ecl_grp','main_grp','in_eclipse'], inplace=True)
 
-    #  Shadow durations
-    # flag==1 in eclipse, else 0
-    combined['in_eclipse'] = (combined['sunlit_flag']==0).astype(int)
-
-    # time since eclipse entry (hrs)
-    combined['ecl_grp'] = (combined['in_eclipse'] != combined['in_eclipse'].shift()).cumsum()
-    combined['time_since_eclipse'] = combined.groupby('ecl_grp').cumcount() * (10/60)
-    combined.loc[combined['in_eclipse']==0, 'time_since_eclipse'] = 0
-
-    # time until next eclipse entry (hrs)
-    rev = combined.iloc[::-1].copy()
-    rev['time_until_eclipse'] = rev.groupby((rev['in_eclipse'] != rev['in_eclipse'].shift()).cumsum())\
-                                .cumcount() * (10/60)
-    combined['time_until_eclipse'] = rev['time_until_eclipse'][::-1].values
-
-    # Storm-phase elapsed time
-    main = (combined['storm_phase']==2).astype(int)
-    combined['main_grp'] = (main != main.shift()).cumsum()
-    combined['hours_since_main_start'] = combined.groupby('main_grp').cumcount() * (10/60)
-    combined.loc[combined['storm_phase']!=2, 'hours_since_main_start'] = 0
-
-    # Multi-scale rolling stats for key drivers
-    wins = [(36,'6h'), (72,'12h'), (144,'24h')]
-    for col in ['Bz_neg','SW_Plasma_Speed_km_s','epsilon','Kp_index']:
-        for win, label in wins:
-            combined[f'{col}_mean_{label}'] = combined[col].rolling(win, min_periods=1).mean()
-            combined[f'{col}_std_{label}']  = combined[col].rolling(win, min_periods=1).std().fillna(0)
-
-    # F10.7 lags & rolling trends
-    combined['f107_1d_mean'] = combined['f10.7_index'].rolling(144, min_periods=1).mean()
-    combined['f107_3d_mean'] = combined['f10.7_index'].rolling(432, min_periods=1).mean()
-    combined['f107_lag_1d']  = combined['f10.7_index'].shift(144)
-    combined['f107_lag_3d']  = combined['f10.7_index'].shift(432)
-
-    #  Third-harmonic DOY/hour
-    doy = combined.index.dayofyear.values
-    hrs = combined.index.hour.values + combined.index.minute.values/60
-    combined['doy_sin3']  = np.sin(6*np.pi * doy/365)
-    combined['doy_cos3']  = np.cos(6*np.pi * doy/365)
-    combined['hour_sin3'] = np.sin(6*np.pi * hrs/24)
-    combined['hour_cos3'] = np.cos(6*np.pi * hrs/24)
-
-    #  Nonlinear interaction terms
-    combined['E_y_sunlit']    = combined['E_y'] * combined['sunlit_flag']
-    combined['Bz_neg_vs2']    = combined['Bz_neg'] * combined['SW_Plasma_Speed_km_s']**2
-    combined['pressure_sq']   = combined['Bz_neg_x_pressure']**2
-
-    #  Normalized time‐in‐sequence
-    n = len(combined)
-    combined['time_frac'] = np.linspace(0, 1, n)
-
-    # clean up temporary grouping cols 
-    combined.drop(columns=['ecl_grp','main_grp','in_eclipse'], inplace=True)
 
     # Fill any nans 
     combined.ffill(inplace=True)
