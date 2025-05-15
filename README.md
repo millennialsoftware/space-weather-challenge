@@ -60,7 +60,7 @@ Ensure you have the following installed:
 
 2. **Configure Environment Variables**
 
-   Create a `.env` file with variable PATH that points to where you are storing the dataset.
+   Create a `.env` file with variable DATA_PATH that points to where you are storing the dataset.
 
 2.**Model Creation:**
 
