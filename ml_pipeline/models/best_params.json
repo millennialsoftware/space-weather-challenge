@@ -1,0 +1,16 @@
+{
+    "CNN_RNN": {
+        "learning_rate": 0.0004065258494903422,
+        "batch_size": 8,
+        "epochs": 300,
+        "conv_filters1": 64,
+        "conv_filters2": 64,
+        "kernel_size": 5,
+        "lstm_units": 64,
+        "lstm_dropout": 0.2819473527191261,
+        "gru_units": 32,
+        "gru_dropout": 0.20777453781374602,
+        "dense_units": 64,
+        "dense_activation": "tanh"
+    }
+}
