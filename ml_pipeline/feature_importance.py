@@ -302,7 +302,6 @@ features = [
     'lat_cos',
     'lon_sin',
     'lon_cos',
-    'lst_hour',
     'lst_sin',
     'lst_cos',
     'solar_zenith',
