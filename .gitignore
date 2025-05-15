@@ -1,0 +1,42 @@
+# Ignore Python bytecode and cache files
+__pycache__/
+*.py[cod]
+
+# Ignore metrics & plots
+ml_pipeline/metrics
+ml_pipeline/plots
+
+# Ignore raytune checkpoints
+ml_pipeline/raytune
+
+# Ignore all JSON files
+*.json
+
+# Except the ground_truth, best_submission, and parameters files
+!best_submission.json
+!best_features.json
+!best_params.json
+!field_combinations.json
+!ground_truth
+!parameters.json
+
+# Ignore all txt files
+*.txt
+
+# Ignore all models inside the saved directory
+ml_pipeline/models/saved/*
+
+# Ignore system metadata files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore virtual environments
+venv/
+.env
+.envrc
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
