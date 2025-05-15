@@ -283,11 +283,6 @@ def unify_time_series(
     combined['lon_sin'] = np.sin(lon_rad)
     combined['lon_cos'] = np.cos(lon_rad)
  
-    # Calculate Local Solar Time. Note: Uses the constant longitude rather than propagated values. block should be removed
-    lon_hours = row['Longitude (deg)'] / 15.0
-    combined['lst_hour'] = (combined.index.hour + lon_hours) % 24
-    combined['lst_sin'] = np.sin(2 * np.pi * combined['lst_hour'] / 24)
-    combined['lst_cos'] = np.cos(2 * np.pi * combined['lst_hour'] / 24)
 
     # Drop the constant columns that we propagated 
     propagated_cols = [
@@ -297,7 +292,7 @@ def unify_time_series(
 
     combined.drop(columns=propagated_cols, inplace=True)
    
-    # Local Solar Time and cylical transformation.  Note: we calculate solar time again here but with the propagated lon. 
+    # Local Solar Time and cylical transformation.  
     lon_h = lon / 15.0
     lst = (idx.hour + idx.minute/60 + lon_h) % 24
     combined['lst_sin'] = np.sin(2*np.pi*lst/24)
