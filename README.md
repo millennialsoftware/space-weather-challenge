@@ -1,6 +1,8 @@
 # Space Weather Challenge - Best Model
 
-Welcome to the **Space Weather Challenge** repository. This project is part of the [STORM-AI](https://github.com/ARCLab-MIT/STORM-AI-devkit-2025) initiative, aiming to develop advanced AI algorithms for predicting space weather-driven changes in atmospheric density across low Earth orbit. This specific branch contains our overall best model workflow. While this model was not used for scoring on the leaderboard as it achieved slightly lower performance on the phase 1.1 and 1.2 datasets, it perfomed significantly better on the private evaluation dataset, therefore making it a more robust model. 
+Welcome to the **Space Weather Challenge** repository. This project is part of the [STORM-AI](https://github.com/ARCLab-MIT/STORM-AI-devkit-2025) initiative, aiming to develop advanced AI algorithms for predicting space weather-driven changes in atmospheric density across low Earth orbit.
+
+The main branch contains the team's submission for the competition, but this `best_model` branch contains our overall best model workflow. It was not chosen for Phase 1 since it achieved slightly lower performance on the public datasets. During post-mortem analysis it produced an SSAOD-RMSE score of 0.453, which is a significant improvement over the 0.260 score of the main branch model. Therefore, this branch contains a more general and robust model with increased prediction accuracy amidst extreme solar weather events.
 
 ## Table of Contents
 
