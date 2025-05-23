@@ -2,6 +2,8 @@
 
 Welcome to the **Space Weather Challenge** repository. This project is part of the [STORM-AI](https://github.com/ARCLab-MIT/STORM-AI-devkit-2025) initiative, aiming to develop advanced AI algorithms for predicting space weather-driven changes in atmospheric density across low Earth orbit.
 
+This `main` branch contains the model we submitted for Phase 1 of the competition. Alternatively, the `best_model` branch contains an architecturally identical model that outperforms this one overall, especially in the case of extreme solar weather.
+
 ## Table of Contents
 
 - [Project Overview](#project-overview)
