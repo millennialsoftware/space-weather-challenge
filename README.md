@@ -22,7 +22,7 @@ The objective of this project is to create an AI model that can nowcast and fore
 
 The repository is organized as follows:
 
-- `Codabench_Submission`: Contains best model and associated files for Codabench Platform submission.
+- `Codabench_Submission/`: Contains Phase 1 submitted model and associated files for Codabench Platform submission.
 - `devkit/`: MIT Development toolkit with utilities and baseline models.
 - `ml_pipeline/`: Directory for our training and processing modules
 - `.gitignore`: Specifies files and directories to be ignored by Git.
