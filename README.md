@@ -12,6 +12,7 @@ The main branch contains the team's submission for the competition, but this `be
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
+- [Troubleshooting](#troubleshooting)
 - [License](#license)
 
 ## Project Overview
