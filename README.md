@@ -12,6 +12,7 @@ This `main` branch contains the model we submitted for Phase 1 of the competitio
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
+- [Troubleshooting](#troubleshooting)
 - [License](#license)
 
 ## Project Overview
