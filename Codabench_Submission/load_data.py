@@ -157,9 +157,6 @@ def unify_time_series(
     combined = pd.concat([combined, df_omni_10], axis=1)
     combined['log_density'] = df_density_10['log_density']
 
-    # Earth gravitational parameter
-    MU = 398600.4418  # km^3/s^2
-
     # Add orbital metadata as constants, excluding Timestamp and File ID
     exclude_cols = ["Timestamp", "File ID"]
     for col in row.index: 
