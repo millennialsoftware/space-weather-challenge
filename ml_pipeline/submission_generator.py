@@ -171,9 +171,6 @@ def unify_time_series(
     combined = pd.concat([combined, df_omni_10], axis=1)
     combined['log_density'] = df_density_10['log_density']
 
-    # Earth gravitational parameter
-    MU = 398600.4418  # km^3/s^2
-
     # Add orbital metadata as constants, excluding Timestamp and File ID
     exclude_cols = ["Timestamp", "File ID"]
     for col in row.index: 
@@ -197,13 +194,8 @@ def unify_time_series(
     M0 = E0 - e * np.sin(E0)  # Initial Eccentric Anomaly
     n  = np.sqrt(MU / a**3)  # Initial Mean Anomaly (rad)
 
-    # Build 10-min time index
-    start = T0 - pd.Timedelta(days=59, hours=23, minutes=50)
-    end   = T0 + pd.Timedelta(days=2, hours=23, minutes=50)
-    idx   = pd.date_range(start=start, end=end, freq='10min')
-
     # Propagate mean anomaly
-    dt = (idx - T0).total_seconds()
+    dt = (idx_10min - T0).total_seconds()
     M  = M0 + n * dt
 
     # Solve Kepler's equation 
@@ -248,12 +240,6 @@ def unify_time_series(
     combined['lon_sin'] = np.sin(lon_rad)
     combined['lon_cos'] = np.cos(lon_rad)
  
-    # Calculate Local Solar Time. Note: Uses the constant longitude rather than propagated values. block should be removed
-    lon_hours = row['Longitude (deg)'] / 15.0
-    combined['lst_hour'] = (combined.index.hour + lon_hours) % 24
-    combined['lst_sin'] = np.sin(2 * np.pi * combined['lst_hour'] / 24)
-    combined['lst_cos'] = np.cos(2 * np.pi * combined['lst_hour'] / 24)
-
     # Drop the constant columns that we propagated 
     propagated_cols = [
         'True Anomaly (deg)', 'Latitude (deg)', 'Longitude (deg)',
@@ -262,9 +248,9 @@ def unify_time_series(
 
     combined.drop(columns=propagated_cols, inplace=True)
    
-    # Local Solar Time and cylical transformation.  Note: we calculate solar time again here but with the propagated lon. 
+    # Local Solar Time and cylical transformation. 
     lon_h = lon / 15.0
-    lst = (idx.hour + idx.minute/60 + lon_h) % 24
+    lst = (idx_10min.hour + idx_10min.minute/60 + lon_h) % 24
     combined['lst_sin'] = np.sin(2*np.pi*lst/24)
     combined['lst_cos'] = np.cos(2*np.pi*lst/24)
 
