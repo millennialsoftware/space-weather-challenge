@@ -190,9 +190,9 @@ def unify_time_series(
     nu0   = np.deg2rad(row['True Anomaly (deg)'])
 
     # Compute initial anomalies for propagation
-    E0 = 2 * np.arctan(np.sqrt((1 - e)/(1 + e)) * np.tan(nu0/2))
-    M0 = E0 - e * np.sin(E0)  # Initial Eccentric Anomaly
-    n  = np.sqrt(MU / a**3)  # Initial Mean Anomaly (rad)
+    E0 = 2 * np.arctan(np.sqrt((1 - e)/(1 + e)) * np.tan(nu0/2)) # Initial Eccentric Anomaly
+    M0 = E0 - e * np.sin(E0)  # Initial Mean Anomaly (rad)
+    n  = np.sqrt(MU / a**3)  # Mean Motion
 
     # Propagate mean anomaly
     dt = (idx_10min - T0).total_seconds()
