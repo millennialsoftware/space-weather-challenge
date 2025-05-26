@@ -232,13 +232,9 @@ def unify_time_series(
     M0 = E0 - e * np.sin(E0)  # Initial Mean Anomaly (rad)
     n  = np.sqrt(MU / a**3)   # Mean Motion
 
-    # Build 10-min time index
-    start = T0 - pd.Timedelta(days=59, hours=23, minutes=50)
-    end = T0 + pd.Timedelta(days=2, hours=23, minutes=50)
-    idx = pd.date_range(start=start, end=end, freq='10min')
 
     # Propagate mean anomaly
-    dt = (idx - T0).total_seconds()
+    dt = (idx_10min - T0).total_seconds()
     M  = M0 + n * dt
 
     # Solve Kepler's equation 
@@ -294,13 +290,13 @@ def unify_time_series(
    
     # Local Solar Time and cylical transformation.  
     lon_h = lon / 15.0
-    lst = (idx.hour + idx.minute/60 + lon_h) % 24
+    lst = (idx_10min.hour + idx_10min.minute/60 + lon_h) % 24
     combined['lst_sin'] = np.sin(2*np.pi*lst/24)
     combined['lst_cos'] = np.cos(2*np.pi*lst/24)
 
     # Sunlit Flag/solar_zenith. compute_solar_zenith helper is in features.py.
     combined['solar_zenith'] = compute_solar_zenith(
-        times=idx, lat=combined['Latitude_dyn'], lon=combined['Longitude_dyn']
+        times=idx_10min, lat=combined['Latitude_dyn'], lon=combined['Longitude_dyn']
     )
 
     # Flag to tell if satellite is in day light or not using solar_zeinth angle 
